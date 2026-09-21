@@ -143,7 +143,7 @@ function Fila({ tren, ahora, paradas }: { tren: Proximo; ahora: number; paradas:
   return (
     <View style={[s.fila, anulado && { opacity: 0.6 }]}>
       <View style={s.cuenta}>
-        <Text style={[s.cuentaNum, { color }]}>{cuenta}</Text>
+        <Text style={[s.cuentaNum, { color }, cuenta.includes(':') && s.cuentaHora]}>{cuenta}</Text>
         {!anulado && min > 0 && min < 60 && <Text style={s.cuentaMin}>min</Text>}
       </View>
       <View style={{ flex: 1 }}>
@@ -191,6 +191,7 @@ const s = StyleSheet.create({
   fila: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#161d28', borderRadius: 12, padding: 14, marginBottom: 10 },
   cuenta: { width: 70, alignItems: 'center' },
   cuentaNum: { fontSize: 30, fontWeight: '800' },
+  cuentaHora: { fontSize: 20 },
   cuentaMin: { color: '#a8b3c4', fontSize: 12, marginTop: -4 },
   destino: { color: '#fff', fontSize: 17, fontWeight: '600' },
   horas: { color: '#c9d2df', fontSize: 15, marginTop: 3 },
@@ -199,5 +200,6 @@ const s = StyleSheet.create({
   badge: { borderWidth: 1.5, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4, marginLeft: 8 },
   badgeTxt: { fontWeight: '700', fontSize: 13 },
   vacio: { color: GRIS, textAlign: 'center', marginTop: 40, fontSize: 16 },
-  pie: { color: '#5c6678', fontSize: 11, textAlign: 'center', paddingBottom: 16 },
+  // En Android la barra de botones del sistema tapa el final de la pantalla
+  pie: { color: '#5c6678', fontSize: 11, textAlign: 'center', paddingTop: 6, paddingBottom: Platform.OS === 'android' ? 52 : 24 },
 });
