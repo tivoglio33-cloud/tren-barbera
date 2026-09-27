@@ -82,10 +82,11 @@ const ESTACIONES = [
     ],
   },
   {
-    id: 'santandreu',
-    nombre: 'Sant Andreu Arenal',
-    busca: ['sant andreu arenal', 'arenal', 'fabra i puig'],
-    excluye: ['comtal', 'barca', 'llavaneres'],
+    // La R4 NO para en Sant Andreu Arenal (eso es de la R3/R7/R12): despues de
+    // La Sagrera va a Fabra i Puig
+    id: 'fabra',
+    nombre: 'Fabra i Puig',
+    busca: 'fabra i puig',
     lineas: ['R4', 'R12'],
     sentidos: [
       { nombre: '\u2192 Barber\u00e0 / Vall\u00e8s', por: HACIA_CASA },
