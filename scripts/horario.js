@@ -1,6 +1,7 @@
 // scripts/horario.js
 // Genera, a partir del GTFS de Renfe Cercanías (fomento_transit.zip):
 //   data/estaciones.json -> horario de TODAS las estaciones de la lista ESTACIONES (lo usa la web)
+//                           (en las de Barcelona solo se guardan R4 y R12, las que pasan por Barberà)
 //   data/barbera.json    -> solo Barberà, con el formato antiguo (lo usa la versión app, App.tsx)
 // Lo ejecuta el workflow .github/workflows/horario.yml cada madrugada.
 // Uso: node scripts/horario.js <carpeta_gtfs_descomprimido> <carpeta_salida>
@@ -10,29 +11,112 @@ const path = require('path');
 const readline = require('readline');
 
 // ------------------------------------------------------------------
-// LISTA DE ESTACIONES  (para añadir una, copia un bloque y cámbialo)
+// LISTA DE ESTACIONES  (para anadir una, copia un bloque y cambialo)
 //   id       -> nombre corto interno, sin espacios ni acentos
-//   busca    -> un trozo del nombre de la estación tal como lo escribe Renfe
-//               (se compara sin acentos y en minúsculas)
-//   sentidos -> los dos botones. Un tren va en el PRIMER sentido si, después
-//               de esta estación, pasa por alguna parada que contenga una de
+//   nombre   -> como quieres que salga escrita en la web (si no se pone, sale
+//               el nombre de Renfe, que va en mayusculas y es muy largo)
+//   busca    -> un trozo del nombre de la estacion tal como lo escribe Renfe
+//               (se compara sin acentos y en minusculas)
+//   excluye  -> (opcional) palabras que NO debe tener el nombre, para no colar
+//               estaciones parecidas (por ejemplo, varias "Montcada")
+//   lineas   -> (opcional) solo guarda los trenes de estas lineas. En las
+//               estaciones de Barcelona se dejan solo R4 y R12, que son las que
+//               pasan por Barbera: asi el archivo no se hace enorme.
+//               Para ver TODOS los trenes de una estacion, borra su linea "lineas".
+//   sentidos -> los dos botones. Un tren va en el PRIMER sentido si, despues
+//               de esta estacion, pasa por alguna parada que contenga una de
 //               las palabras de "por". Si no, va en el segundo.
+// Si alguna estacion no aparece con ese nombre en el horario de Renfe, NO se
+// para todo: se salta, se avisa en el log y las demas se generan igual.
 // ------------------------------------------------------------------
+const HACIA_CASA = ['barbera del valles', 'sabadell', 'terrassa', 'manresa', 'lleida'];
+
 const ESTACIONES = [
   {
     id: 'barbera',
+    nombre: 'Barber\u00e0',
     busca: 'barbera del valles',
     sentidos: [
-      { nombre: '→ Barcelona', por: ['barcelona'] },
-      { nombre: '→ Sabadell / Terrassa' },
+      { nombre: '\u2192 Barcelona', por: ['barcelona'] },
+      { nombre: '\u2192 Sabadell / Terrassa' },
     ],
   },
   {
     id: 'sagrera',
+    nombre: 'La Sagrera',
     busca: 'sagrera-meridiana',
     sentidos: [
-      { nombre: '→ Arc de Triomf / Sants', por: ['arc de triomf', 'placa de catalunya', 'sants', 'clot', 'passeig de gracia', 'estacio de franca'] },
-      { nombre: '→ Fabra i Puig / Vallès' },
+      { nombre: '\u2192 Arc de Triomf / Sants', por: ['arc de triomf', 'placa de catalunya', 'sants', 'clot', 'passeig de gracia', 'estacio de franca'] },
+      { nombre: '\u2192 Fabra i Puig / Vall\u00e8s' },
+    ],
+  },
+  {
+    id: 'catalunya',
+    nombre: 'Pl. Catalunya',
+    busca: 'placa de catalunya',
+    lineas: ['R4', 'R12'],
+    sentidos: [
+      { nombre: '\u2192 Barber\u00e0 / Vall\u00e8s', por: HACIA_CASA },
+      { nombre: '\u2192 Sants / Sant Vicen\u00e7' },
+    ],
+  },
+  {
+    id: 'sants',
+    nombre: 'Sants',
+    busca: 'barcelona-sants',
+    lineas: ['R4', 'R12'],
+    sentidos: [
+      { nombre: '\u2192 Barber\u00e0 / Vall\u00e8s', por: HACIA_CASA },
+      { nombre: '\u2192 Sant Vicen\u00e7 / Martorell' },
+    ],
+  },
+  {
+    id: 'arctriomf',
+    nombre: 'Arc de Triomf',
+    busca: 'arc de triomf',
+    lineas: ['R4', 'R12'],
+    sentidos: [
+      { nombre: '\u2192 Barber\u00e0 / Vall\u00e8s', por: HACIA_CASA },
+      { nombre: '\u2192 Sants / Sant Vicen\u00e7' },
+    ],
+  },
+  {
+    id: 'santandreu',
+    nombre: 'Sant Andreu Arenal',
+    busca: 'sant andreu arenal',
+    lineas: ['R4', 'R12'],
+    sentidos: [
+      { nombre: '\u2192 Barber\u00e0 / Vall\u00e8s', por: HACIA_CASA },
+      { nombre: '\u2192 Barcelona centre' },
+    ],
+  },
+  {
+    id: 'montcada',
+    nombre: 'Montcada i Reixac',
+    busca: 'montcada i reixac',
+    excluye: ['bifurcacio', 'ripollet', 'santa maria'],
+    lineas: ['R4', 'R12'],
+    sentidos: [
+      { nombre: '\u2192 Barber\u00e0 / Vall\u00e8s', por: HACIA_CASA },
+      { nombre: '\u2192 Barcelona' },
+    ],
+  },
+  {
+    id: 'sabadell',
+    nombre: 'Sabadell Centre',
+    busca: 'sabadell centre',
+    sentidos: [
+      { nombre: '\u2192 Barber\u00e0 / Barcelona', por: ['barbera del valles', 'barcelona'] },
+      { nombre: '\u2192 Terrassa / Manresa' },
+    ],
+  },
+  {
+    id: 'terrassa',
+    nombre: 'Terrassa Nord',
+    busca: 'terrassa estacio del nord',
+    sentidos: [
+      { nombre: '\u2192 Barber\u00e0 / Barcelona', por: ['barbera del valles', 'barcelona'] },
+      { nombre: '\u2192 Manresa' },
     ],
   },
 ];
@@ -102,14 +186,25 @@ async function main() {
   const paradas = {};
   for (const s of leerCsv('stops.txt')) paradas[s.stop_id] = s.stop_name;
 
+  const encontradas = [];
   for (const e of ESTACIONES) {
-    e.ids = Object.keys(paradas).filter((id) => norm(paradas[id]).includes(norm(e.busca)));
-    if (e.ids.length === 0) throw new Error(`No encuentro "${e.busca}" en stops.txt`);
+    e.ids = Object.keys(paradas).filter((id) => {
+      const n = norm(paradas[id]);
+      if (!n.includes(norm(e.busca))) return false;
+      return !(e.excluye || []).some((x) => n.includes(norm(x)));
+    });
+    if (e.ids.length === 0) {
+      // No se para todo el proceso: se avisa y se sigue con las demas estaciones
+      console.log(`AVISO: no encuentro "${e.busca}" en stops.txt, me salto la estacion ${e.id}`);
+      const trozo = norm(e.busca).split(/[ -]/)[0];
+      const pistas = Object.keys(paradas).filter((id) => norm(paradas[id]).includes(trozo)).slice(0, 15);
+      console.log(`  nombres parecidos con "${trozo}":`, pistas.map((id) => `${id} (${paradas[id]})`).join(', ') || '(ninguno)');
+      continue;
+    }
     console.log(`Estación ${e.id} = ${e.ids.map((id) => `${id} (${paradas[id]})`).join(', ')}`);
+    encontradas.push(e);
   }
-  // Ayuda para añadir estaciones: nombres parecidos que existen
-  const parecidas = Object.keys(paradas).filter((id) => norm(paradas[id]).includes('sagrera'));
-  console.log('Paradas con "sagrera" en el nombre:', parecidas.map((id) => `${id} (${paradas[id]})`).join(', '));
+  if (!encontradas.some((e) => e.id === 'barbera')) throw new Error('No encuentro Barberà: algo ha cambiado en el GTFS');
 
   // 2) Días que nos interesan
   const diasQueremos = new Set();
@@ -171,10 +266,11 @@ async function main() {
   const coloresLinea = {};
   const salida = { generado: new Date().toISOString(), estaciones: [], paradas: {}, colores: {} };
 
-  for (const e of ESTACIONES) {
+  for (const e of encontradas) {
     const dias = {};
     const lineasAqui = new Set();
     for (const [tripId, v] of Object.entries(viajes)) {
+      if (e.lineas && !e.lineas.includes(v.linea.nombre)) continue; // solo las lineas elegidas
       const i = v.paradas.findIndex((p) => e.ids.includes(p.stop));
       if (i === -1 || i === v.paradas.length - 1) continue; // no para, o termina aquí
       const despues = v.paradas.slice(i + 1);
@@ -197,9 +293,13 @@ async function main() {
       }
     }
     for (const f of Object.keys(dias)) dias[f].sort((a, b) => a.s - b.s);
-    if (!Object.keys(dias).length) throw new Error(`Ningún tren encontrado en ${e.id}: algo ha cambiado en el GTFS`);
+    if (!Object.keys(dias).length) {
+      if (e.id === 'barbera') throw new Error('Ningún tren encontrado en Barberà: algo ha cambiado en el GTFS');
+      console.log(`AVISO: ningún tren en ${e.id}, me la salto`);
+      continue;
+    }
     const lineasOrden = [...lineasAqui].sort((a, b) => a.localeCompare(b, 'es', { numeric: true }));
-    salida.estaciones.push({ id: e.id, nombre: paradas[e.ids[0]], ids: e.ids, lineas: lineasOrden, sentidos: e.sentidos.map((s) => s.nombre), dias });
+    salida.estaciones.push({ id: e.id, nombre: e.nombre || paradas[e.ids[0]], ids: e.ids, lineas: lineasOrden, sentidos: e.sentidos.map((s) => s.nombre), dias });
     console.log(`  ${e.id} (${lineasOrden.join(', ')}):`);
     for (const f of Object.keys(dias).sort()) {
       const s0 = dias[f].filter((x) => x.b === 0).length;
