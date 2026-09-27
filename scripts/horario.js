@@ -16,7 +16,8 @@ const readline = require('readline');
 //   nombre   -> como quieres que salga escrita en la web (si no se pone, sale
 //               el nombre de Renfe, que va en mayusculas y es muy largo)
 //   busca    -> un trozo del nombre de la estacion tal como lo escribe Renfe
-//               (se compara sin acentos y en minusculas)
+//               (se compara sin acentos y en minusculas). Tambien se puede poner
+//               una lista de nombres posibles: se queda con el primero que exista.
 //   excluye  -> (opcional) palabras que NO debe tener el nombre, para no colar
 //               estaciones parecidas (por ejemplo, varias "Montcada")
 //   lineas   -> (opcional) solo guarda los trenes de estas lineas. En las
@@ -83,8 +84,8 @@ const ESTACIONES = [
   {
     id: 'santandreu',
     nombre: 'Sant Andreu Arenal',
-    busca: 'andreu',
-    excluye: ['comtal', 'barca'],
+    busca: ['sant andreu arenal', 'arenal', 'fabra i puig'],
+    excluye: ['comtal', 'barca', 'llavaneres'],
     lineas: ['R4', 'R12'],
     sentidos: [
       { nombre: '\u2192 Barber\u00e0 / Vall\u00e8s', por: HACIA_CASA },
@@ -188,15 +189,20 @@ async function main() {
 
   const encontradas = [];
   for (const e of ESTACIONES) {
-    e.ids = Object.keys(paradas).filter((id) => {
-      const n = norm(paradas[id]);
-      if (!n.includes(norm(e.busca))) return false;
-      return !(e.excluye || []).some((x) => n.includes(norm(x)));
-    });
+    const posibles = Array.isArray(e.busca) ? e.busca : [e.busca];
+    e.ids = [];
+    for (const nombreBuscado of posibles) {
+      e.ids = Object.keys(paradas).filter((id) => {
+        const n = norm(paradas[id]);
+        if (!n.includes(norm(nombreBuscado))) return false;
+        return !(e.excluye || []).some((x) => n.includes(norm(x)));
+      });
+      if (e.ids.length) break;
+    }
     if (e.ids.length === 0) {
       // No se para todo el proceso: se avisa y se sigue con las demas estaciones
-      console.log(`AVISO: no encuentro "${e.busca}" en stops.txt, me salto la estacion ${e.id}`);
-      const trozos = norm(e.busca).split(/[ -]/).filter((x) => x.length > 3);
+      console.log(`AVISO: no encuentro "${posibles.join('" ni "')}" en stops.txt, me salto la estacion ${e.id}`);
+      const trozos = norm(posibles[0]).split(/[ -]/).filter((x) => x.length > 3);
       const trozo = trozos[trozos.length - 1] || norm(e.busca);
       const pistas = Object.keys(paradas).filter((id) => norm(paradas[id]).includes(trozo)).slice(0, 15);
       console.log(`  nombres parecidos con "${trozo}":`, pistas.map((id) => `${id} (${paradas[id]})`).join(', ') || '(ninguno)');
@@ -261,6 +267,17 @@ async function main() {
     viaje.paradas.push({ seq: Number(o.stop_sequence), stop: o.stop_id, llegada: o.arrival_time || o.departure_time });
   }
   for (const v of Object.values(viajes)) v.paradas.sort((a, b) => a.seq - b.seq);
+
+  // AYUDA: se escribe el recorrido completo de un tren que pasa por Barberà,
+  // para ver como llama Renfe exactamente a cada parada de la linea
+  const eBarbera = encontradas.find((e) => e.id === 'barbera');
+  if (eBarbera) {
+    const ejemplo = Object.values(viajes).find((v) => v.paradas.some((p) => eBarbera.ids.includes(p.stop)) && v.paradas.length > 8);
+    if (ejemplo) {
+      console.log('RECORRIDO DE EJEMPLO (' + ejemplo.linea.nombre + '):');
+      console.log('  ' + ejemplo.paradas.map((p) => `${p.stop} ${paradas[p.stop]}`).join(' | '));
+    }
+  }
 
   // 6) Para cada estación, los trenes que paran en ella
   const paradasUsadas = new Set();
