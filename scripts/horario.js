@@ -83,7 +83,8 @@ const ESTACIONES = [
   {
     id: 'santandreu',
     nombre: 'Sant Andreu Arenal',
-    busca: 'sant andreu arenal',
+    busca: 'andreu',
+    excluye: ['comtal', 'barca'],
     lineas: ['R4', 'R12'],
     sentidos: [
       { nombre: '\u2192 Barber\u00e0 / Vall\u00e8s', por: HACIA_CASA },
@@ -93,8 +94,7 @@ const ESTACIONES = [
   {
     id: 'montcada',
     nombre: 'Montcada i Reixac',
-    busca: 'montcada i reixac',
-    excluye: ['bifurcacio', 'ripollet', 'santa maria'],
+    busca: 'montcada i reixac-manresa',
     lineas: ['R4', 'R12'],
     sentidos: [
       { nombre: '\u2192 Barber\u00e0 / Vall\u00e8s', por: HACIA_CASA },
@@ -196,7 +196,8 @@ async function main() {
     if (e.ids.length === 0) {
       // No se para todo el proceso: se avisa y se sigue con las demas estaciones
       console.log(`AVISO: no encuentro "${e.busca}" en stops.txt, me salto la estacion ${e.id}`);
-      const trozo = norm(e.busca).split(/[ -]/)[0];
+      const trozos = norm(e.busca).split(/[ -]/).filter((x) => x.length > 3);
+      const trozo = trozos[trozos.length - 1] || norm(e.busca);
       const pistas = Object.keys(paradas).filter((id) => norm(paradas[id]).includes(trozo)).slice(0, 15);
       console.log(`  nombres parecidos con "${trozo}":`, pistas.map((id) => `${id} (${paradas[id]})`).join(', ') || '(ninguno)');
       continue;
