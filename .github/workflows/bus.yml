@@ -1,0 +1,64 @@
+# .github/workflows/bus.yml
+# Cada madrugada descarga el horario de T-mobilitat (GTFS completo de la ATM)
+# y regenera data/bus (paradas de Moventis y TUS en Barbera, Badia y Sabadell).
+# Tambien se puede lanzar a mano desde la pestana Actions (boton "Run workflow").
+name: Actualizar horario bus
+
+on:
+  schedule:
+    # Horas en UTC. Varios intentos porque GitHub a veces retrasa o se salta ejecuciones.
+    - cron: '41 1 * * *'
+    - cron: '13 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actualizar-horario
+  cancel-in-progress: false
+
+env:
+  # Enlace de descarga del zip "Oferta planificada de transporte completa" de T-mobilitat
+  URL_GTFS: 'PEGAR_ENLACE_T_MOBILITAT'
+
+jobs:
+  bus:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Descargar GTFS de T-mobilitat
+        run: |
+          if [ "$URL_GTFS" = "PEGAR_ENLACE_T_MOBILITAT" ]; then
+            echo "Falta poner el enlace de T-mobilitat en URL_GTFS: no se actualiza nada (los horarios de data/bus siguen como estaban)"
+            echo "SIN_ENLACE=1" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          curl -sSfL --retry 3 --retry-delay 20 -A "Mozilla/5.0" -o atm.zip "$URL_GTFS"
+          ls -la atm.zip
+          mkdir -p gtfs
+          unzip -o -q atm.zip -d gtfs
+          ls -la gtfs
+
+      - name: Generar horarios de bus (data/bus)
+        if: env.SIN_ENLACE != '1'
+        run: node scripts/bus.js gtfs data
+
+      - name: Guardar en el repositorio
+        if: env.SIN_ENLACE != '1'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A data/bus
+          if git diff --cached --quiet; then
+            echo "Sin cambios"
+          else
+            git commit -m "Horario bus actualizado $(date -u +%Y-%m-%dT%H:%MZ)"
+            git pull --rebase
+            git push
+          fi
