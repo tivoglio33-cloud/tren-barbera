@@ -767,7 +767,14 @@ ${VOLVER}
 
   function pintarFilas() {
     var cont = document.getElementById('lista');
-    document.getElementById('error').innerHTML = errorTxt ? '<div class="error">' + esc(errorTxt) + '</div>' : '';
+    var avisoHasta = '';
+    if (indice && indice.hasta) {
+      var quedan = Math.round((medianoche(indice.hasta) - medianoche(fechaLocal(new Date()))) / 86400000);
+      if (quedan < 0) avisoHasta = 'El horario de bus se ha acabado: hay que actualizarlo';
+      else if (quedan <= 7) avisoHasta = 'El horario de bus solo llega hasta el ' + indice.hasta.split('-').reverse().join('/') + ': toca actualizarlo';
+    }
+    var err = [errorTxt, avisoHasta].filter(Boolean).join(' \u00b7 ');
+    document.getElementById('error').innerHTML = err ? '<div class="error">' + esc(err) + '</div>' : '';
     if (!indice) { cont.innerHTML = '<div class="vacio">' + esc(errorTxt || 'Cargando paradas\u2026') + '</div>'; return; }
     var t = norm(texto).trim();
     var favs = favoritas();
@@ -857,7 +864,9 @@ ${VOLVER}
     if (!g) { cont.innerHTML = '<div class="vacio">' + esc(errorTxt || 'Cargando horario\u2026') + '</div>'; return; }
     var d = g.d, ahora = Date.now(), lista = [];
     [ahora - 86400000, ahora, ahora + 86400000].forEach(function (t) {
-      var fecha = fechaLocal(new Date(t)); var salidas = d.dias[fecha]; if (!salidas) return;
+      var fecha = fechaLocal(new Date(t)); var salidas = d.dias[fecha];
+      if (typeof salidas === 'number') salidas = d.P[salidas]; // dias iguales guardados una sola vez
+      if (!salidas) return;
       var base = medianoche(fecha);
       salidas.forEach(function (x) {
         var cuando = base + x[0] * 1000;

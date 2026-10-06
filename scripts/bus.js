@@ -2,7 +2,8 @@
 // Genera, a partir del horario de T-mobilitat (GTFS completo de la ATM), los
 // horarios de las paradas de bus de Barbera, Badia y Sabadell (Moventis y TUS):
 //   data/bus/paradas.json  -> lista de paradas (nombre, codigo del cartel, zona, lineas, posicion)
-//   data/bus/p/<parada>.json -> las salidas de cada parada, de ayer a dentro de 14 dias
+//   data/bus/p/<parada>.json -> las salidas de cada parada, de ayer hasta donde llegue el horario (max. 3 meses)
+//   Los dias iguales (laborables, sabados...) se guardan una sola vez: "dias" dice que patron toca cada fecha
 // Lo ejecuta el workflow .github/workflows/bus.yml cada madrugada.
 // Uso: node scripts/bus.js <carpeta_gtfs_descomprimido> <carpeta_salida>
 
@@ -32,7 +33,7 @@ const MARGEN = 1.15; // 1 = justo el radio; un poco mas para no dejar fuera las 
 let GTFS = process.argv[2] || 'gtfs';
 const SALIDA = path.join(process.argv[3] || 'data', 'bus');
 const DIAS_ATRAS = 1; // ayer: por los buses de despues de medianoche
-const DIAS_ADELANTE = 14; // dos semanas, por si alguna noche falla la actualizacion
+const DIAS_ADELANTE = 90; // hasta 3 meses (o hasta donde llegue el horario de T-mobilitat)
 
 if (!fs.existsSync(path.join(GTFS, 'stops.txt'))) {
   const sub = fs.readdirSync(GTFS).map((d) => path.join(GTFS, d)).find((d) => fs.existsSync(path.join(d, 'stops.txt')));
@@ -150,9 +151,11 @@ async function main() {
 
   // 2) Lineas de esos operadores (solo bus)
   const lineas = {};
+  const agenciaDeRuta = {};
   await recorrer('routes.txt', (r) => {
     const ag = r.agency_id || '_';
     if (!agenciasBuenas.has(ag) && !unSoloOperador) return;
+    agenciaDeRuta[r.route_id] = ag;
     if (r.route_type && !['3', '700', '701', '702', '704', '715'].includes(r.route_type)) return;
     lineas[r.route_id] = {
       nombre: r.route_short_name || r.route_long_name || r.route_id,
@@ -263,7 +266,16 @@ async function main() {
   // 8) Escribir
   fs.rmSync(SALIDA, { recursive: true, force: true });
   fs.mkdirSync(path.join(SALIDA, 'p'), { recursive: true });
-  const indice = { generado: new Date().toISOString(), zonas: ZONAS.map((z) => z.nombre), lineas: {}, paradas: [] };
+  // Hasta cuando hay horario: cada operador publica hasta una fecha distinta (Moventis suele
+  // llegar menos lejos que TUS), asi que se toma la del que acaba antes
+  const finOperador = {};
+  for (const v of Object.values(viajes)) {
+    const op = agenciaDeRuta[v.ruta];
+    for (const f of v.fechas) if (!finOperador[op] || f > finOperador[op]) finOperador[op] = f;
+  }
+  const ultimoDia = Object.values(finOperador).sort()[0] || '';
+  console.log('Horario hasta, por operador:', Object.entries(finOperador).map(([o, f]) => `${agencias[o]} ${f}`).join(' | '));
+  const indice = { generado: new Date().toISOString(), hasta: ultimoDia, zonas: ZONAS.map((z) => z.nombre), lineas: {}, paradas: [] };
   const lineasUsadas = new Set();
   const porZona = [0, 0, 0];
   let total = 0, conAmb = 0;
@@ -274,18 +286,23 @@ async function main() {
     nombresLinea.forEach((n) => lineasUsadas.add(n));
     // Lineas y destinos van numerados para que el archivo pese menos
     const L = [], D = [];
-    const dias = {};
-    for (const [f, lista] of Object.entries(pp.salidas)) {
+    const dias = {}, P = [], textoP = [];
+    for (const f of Object.keys(pp.salidas).sort()) {
+      const lista = pp.salidas[f];
       lista.sort((a, b) => a[0] - b[0]);
-      dias[f] = lista.map(([s, l, d]) => {
+      const salidas = lista.map(([s, l, d]) => {
         let li = L.indexOf(l); if (li < 0) { L.push(l); li = L.length - 1; }
         let di = D.indexOf(d); if (di < 0) { D.push(d); di = D.length - 1; }
         return [s, li, di];
       });
+      const t = JSON.stringify(salidas);
+      let pi = textoP.indexOf(t);
+      if (pi < 0) { textoP.push(t); P.push(salidas); pi = P.length - 1; }
+      dias[f] = pi;
       total += lista.length;
     }
     const f = archivoDe(stopId);
-    fs.writeFileSync(path.join(SALIDA, 'p', f + '.json'), JSON.stringify({ id: stopId, L, D, dias }));
+    fs.writeFileSync(path.join(SALIDA, 'p', f + '.json'), JSON.stringify({ id: stopId, L, D, P, dias }));
     // Si en el mismo sitio hay una parada del AMB, se usan su numero (el del cartel) y su nombre (mejor escrito)
     const amb = ambCercana(par);
     if (amb) conAmb++;
@@ -307,6 +324,7 @@ async function main() {
 
   console.log(`Paradas guardadas: ${indice.paradas.length} (${ZONAS.map((z, i) => z.nombre + ' ' + porZona[i]).join(', ')})`);
   console.log('Lineas:', Object.keys(indice.lineas).sort((a, b) => a.localeCompare(b, 'es', { numeric: true })).map((n) => `${n} (${indice.lineas[n].op})`).join(', '));
+  console.log('Horario disponible hasta el', ultimoDia);
   console.log('Salidas guardadas en total:', total, '| paradas con numero del AMB:', conAmb);
   if (!indice.paradas.length) throw new Error('Ninguna parada en Barbera, Badia ni Sabadell: revisa ZONAS');
 }
