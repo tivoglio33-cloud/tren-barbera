@@ -16,12 +16,8 @@ const readline = require('readline');
 //   nombre   -> como quieres que salga escrita en la web (si no se pone, sale
 //               el nombre de Renfe, que va en mayusculas y es muy largo)
 //   busca    -> un trozo del nombre de la estacion tal como lo escribe Renfe
-<<<<<<< HEAD
-//               (se compara sin acentos y en minusculas)
-=======
 //               (se compara sin acentos y en minusculas). Tambien se puede poner
 //               una lista de nombres posibles: se queda con el primero que exista.
->>>>>>> b595b51ab52e6727c77b036ef3b9403bebd39161
 //   excluye  -> (opcional) palabras que NO debe tener el nombre, para no colar
 //               estaciones parecidas (por ejemplo, varias "Montcada")
 //   lineas   -> (opcional) solo guarda los trenes de estas lineas. En las
@@ -86,17 +82,11 @@ const ESTACIONES = [
     ],
   },
   {
-<<<<<<< HEAD
-    id: 'santandreu',
-    nombre: 'Sant Andreu Arenal',
-    busca: 'sant andreu arenal',
-=======
     // La R4 NO para en Sant Andreu Arenal (eso es de la R3/R7/R12): despues de
     // La Sagrera va a Fabra i Puig
     id: 'fabra',
     nombre: 'Fabra i Puig',
     busca: 'fabra i puig',
->>>>>>> b595b51ab52e6727c77b036ef3b9403bebd39161
     lineas: ['R4', 'R12'],
     sentidos: [
       { nombre: '\u2192 Barber\u00e0 / Vall\u00e8s', por: HACIA_CASA },
@@ -106,12 +96,7 @@ const ESTACIONES = [
   {
     id: 'montcada',
     nombre: 'Montcada i Reixac',
-<<<<<<< HEAD
-    busca: 'montcada i reixac',
-    excluye: ['bifurcacio', 'ripollet', 'santa maria'],
-=======
     busca: 'montcada i reixac-manresa',
->>>>>>> b595b51ab52e6727c77b036ef3b9403bebd39161
     lineas: ['R4', 'R12'],
     sentidos: [
       { nombre: '\u2192 Barber\u00e0 / Vall\u00e8s', por: HACIA_CASA },
@@ -205,17 +190,6 @@ async function main() {
 
   const encontradas = [];
   for (const e of ESTACIONES) {
-<<<<<<< HEAD
-    e.ids = Object.keys(paradas).filter((id) => {
-      const n = norm(paradas[id]);
-      if (!n.includes(norm(e.busca))) return false;
-      return !(e.excluye || []).some((x) => n.includes(norm(x)));
-    });
-    if (e.ids.length === 0) {
-      // No se para todo el proceso: se avisa y se sigue con las demas estaciones
-      console.log(`AVISO: no encuentro "${e.busca}" en stops.txt, me salto la estacion ${e.id}`);
-      const trozo = norm(e.busca).split(/[ -]/)[0];
-=======
     const posibles = Array.isArray(e.busca) ? e.busca : [e.busca];
     e.ids = [];
     for (const nombreBuscado of posibles) {
@@ -231,7 +205,6 @@ async function main() {
       console.log(`AVISO: no encuentro "${posibles.join('" ni "')}" en stops.txt, me salto la estacion ${e.id}`);
       const trozos = norm(posibles[0]).split(/[ -]/).filter((x) => x.length > 3);
       const trozo = trozos[trozos.length - 1] || norm(e.busca);
->>>>>>> b595b51ab52e6727c77b036ef3b9403bebd39161
       const pistas = Object.keys(paradas).filter((id) => norm(paradas[id]).includes(trozo)).slice(0, 15);
       console.log(`  nombres parecidos con "${trozo}":`, pistas.map((id) => `${id} (${paradas[id]})`).join(', ') || '(ninguno)');
       continue;
