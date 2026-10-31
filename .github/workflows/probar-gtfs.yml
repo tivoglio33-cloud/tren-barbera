@@ -24,9 +24,10 @@ jobs:
           want={'648','CV2','CV3','C1','B1','B2','A2','B3','A1','C2','B4','C7','E1','E3','C3','LB1','B5','N61','B9','N62','N64','B6','C5','N65'}
           rutas=list(csv.DictReader(open('g/routes.txt',encoding='utf-8-sig')))
           for r in rutas:
-            if r.get('agency_id') in sel_ag or r['route_short_name'].upper() in want:
-              print(r['route_id'], '|', r['route_short_name'], '|', ags.get(r.get('agency_id','')), '|', r.get('route_long_name','')[:70])
-          if os.path.exists('g/nota.txt'): print('NOTA', open('g/nota.txt',encoding='utf-8',errors='replace').read()[:800])
+            t=(r['route_short_name']+' '+r.get('route_long_name','')).lower()
+            if any(x in t for x in ('barber','badia','sabadell','ripollet','sbd','bdv','(b','(a1','(a2','(n6','(lb','648','(e3')):
+              print(r['route_id'], '|', r['route_short_name'], '|', ags.get(r.get('agency_id','')), '|', r.get('route_long_name','')[:80])
+          pass
           PY
           }
           { mirar AMB https://www.ambmobilitat.cat/OpenData/google_transit.zip
