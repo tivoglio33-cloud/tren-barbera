@@ -1,0 +1,119 @@
+=================== AMB
+-rw-r--r-- 1 runner runner 9335510 Oct 31 17:49 g.zip
+agency.txt
+areas.txt
+calendar.txt
+calendar_dates.txt
+fare_attributes.txt
+fare_leg_rules.txt
+fare_media.txt
+fare_products.txt
+fare_rules.txt
+feed_info.txt
+networks.txt
+route_networks.txt
+routes.txt
+shapes.txt
+stop_areas.txt
+stop_times.txt
+stops.txt
+ticketing_deep_links.txt
+ticketing_identifiers.txt
+transfers.txt
+trips.txt
+AGENCIAS {'44': 'DIREXIS TUSGSAL', '69': 'Moventis', '74': 'Moventis (Port)', '79': 'Moventis (Cerdanyola)'}
+130 | A1 | Monbus (Aerobús) | Aerobús Barcelona-Aeroport T1
+132 | B14 | DIREXIS TUSGSAL | Sta. Coloma G.-St. Adrià B.
+139 | B21 | DIREXIS TUSGSAL | St. Adrià B.-Barcelona
+141 | B23 | DIREXIS TUSGSAL | Badalona-Barcelona
+142 | B24 | DIREXIS TUSGSAL | Badalona-Barcelona
+143 | B25 | DIREXIS TUSGSAL | Badalona-Barcelona
+146 | B29 | DIREXIS TUSGSAL | Badalona-Tiana
+148 | B31 | DIREXIS TUSGSAL | Les Costes-Plaça de la Mare
+173 | L16 | Moventis | L'Hospitalet L.-Barcelona
+214 | LH1 | Moventis | Circular
+215 | LH2 | Moventis | Circular
+216 | N0 | DIREXIS TUSGSAL | Circular ext.-Circular int.
+217 | N1 | DIREXIS TUSGSAL | Mercabarna-Trinitat Nova
+218 | N11 | DIREXIS TUSGSAL | Barcelona-Badalona
+225 | N2 | DIREXIS TUSGSAL | L'Hospitalet L.-Badalona
+226 | N3 | DIREXIS TUSGSAL | Collblanc-Ciutat Meridiana
+227 | N4 | DIREXIS TUSGSAL | Estació Marítima-El Carmel
+228 | N5 | DIREXIS TUSGSAL | Pl. Catalunya-El Carmel
+229 | N6 | DIREXIS TUSGSAL | Sta. Coloma G.-Canyelles
+230 | N7 | DIREXIS TUSGSAL | Pedralbes-Fòrum
+231 | N8 | DIREXIS TUSGSAL | Can Caralleu-Sta. Coloma G.
+232 | N9 | DIREXIS TUSGSAL | Barcelona-Tiana
+234 | PR1 | Moventis | Aeroport T1-Aeroport T2
+235 | PR2 | Moventis | Est. Rodalies-Sant Cosme
+236 | PR3 | Moventis | Est. Rodalies-Platja
+237 | PR4 | Moventis (Port) | Estació Rodalies-ZAL Prat
+269 | A2 | Monbus (Aerobús) | Aerobús Barcelona-Aeroport T2
+297 | B8 | DIREXIS TUSGSAL | Bonavista
+301 | B80 | DIREXIS TUSGSAL | Riera Alta-Can Franquesa
+302 | B81 | DIREXIS TUSGSAL | H. Esperit Sant-Can Franquesa
+303 | B82 | DIREXIS TUSGSAL | R. Torribera-CAI El Carme
+307 | B15 | DIREXIS TUSGSAL | Les Oliveres-Montigalà
+310 | B18 | DIREXIS TUSGSAL | Sta. Coloma G. - H. Can Ruti
+313 | B20 | DIREXIS TUSGSAL | Sta. Coloma G.-Barcelona
+325 | B2 | DIREXIS TUSGSAL | Manresà-H. Esperit Sant
+326 | B3 | DIREXIS TUSGSAL | Llefià-Pomar/Les Guixeres
+327 | B4 | DIREXIS TUSGSAL | Montigalà-Mas Ram
+328 | B5 | DIREXIS TUSGSAL | Est. Rodalies-H. Esperit Sant
+329 | B7 | DIREXIS TUSGSAL | Bufalà-Est. St. Adrià
+361 | 88 | Moventis (Port) | Metro Paral·lel-Metro ZAL | Riu Vell
+395 | N28 | DIREXIS TUSGSAL | Fòrum-L'Hospitalet L.
+403 | M27 | DIREXIS TUSGSAL | Sta. Coloma G.-Badalona
+404 | M28 | DIREXIS TUSGSAL | Badalona-Barcelona
+408 | M19 | DIREXIS TUSGSAL | Badalona-Barcelona
+413 | M26 | DIREXIS TUSGSAL | Badalona-St. Adrià B.
+415 | M30 | DIREXIS TUSGSAL | Sta. Coloma G.-Montgat
+417 | M12 | Moventis | Barcelona-Cornellà L.
+418 | M14 | Moventis | L'Hospitalet L.-Barcelona
+430 | X30 | Moventis | St. Feliu L.-Barcelona
+431 | M1 | DIREXIS TUSGSAL | Metro Pep Ventura-Metro Fondo
+432 | M6 | DIREXIS TUSGSAL | H. Can Ruti-Est. Rodalies
+481 | L22 | Moventis | El Prat L.-H. Bellvitge
+485 | 89 | Moventis (Port) | Metro Paral·lel-ZAL Prat/Terminal BEST
+492 | L20 | Moventis | St. Joan D.-El Prat L.
+493 | L21 | Moventis | L'Hospitalet L.-St. Feliu L.
+495 | PR5 | Moventis | Les Moreres-Platja
+496 | N23 | DIREXIS TUSGSAL | Estació de Sants-Montcada R.
+497 | N24 | DIREXIS TUSGSAL | La Barceloneta-Les Roquetes
+508 | CV1 | Moventis (Cerdanyola) | Canaletes-Flor de Maig
+509 | CV2 | Moventis (Cerdanyola) | La Farigola-Bellaterra
+510 | CV3 | Moventis (Cerdanyola) | Canaletes-Estació Rodalies Cerdanyola Universitat
+511 | CV4 | Moventis (Cerdanyola) | La Farigola-Can Cerdà
+512 | CV5 | Moventis (Cerdanyola) | FGC Bellaterra-Parc Tecnològic
+513 | B32 | DIREXIS TUSGSAL | Montgat-Tiana
+516 | M15 | Moventis | Barcelona-Cornellà L.
+=================== GENCAT
+-rw-r--r-- 1 runner runner 26054178 Oct 31 17:49 g.zip
+agency.txt
+calendar.txt
+calendar_dates.txt
+nota.txt
+routes.txt
+shapes.txt
+stop_times.txt
+stops.txt
+trips.txt
+AGENCIAS {'42673': 'La Vallesana, SA'}
+0625 | L0625 | La Vallesana, SA | (C2) Sabadell - Terrassa - Martorell
+0623 | L0623 | La Vallesana, SA | (C3) Sabadell - Sant Llorenç Savall
+0084 | L0084 | La Vallesana, SA | (N65) Barcelona - Castellar del Vallès (SN)
+0232 | L0232 | La Vallesana, SA | (C7) Castellbisbal-Terrassa-Sabadell (Can Rull)
+0739 | L0739 | La Vallesana, SA | (C5) Terrassa - Sabadell
+0620 | L0620 | La Vallesana, SA | (C1) Sabadell - Castellar del Vallès
+0228 | L0228 | La Vallesana, SA | (C4) Castellar del V.-St.Feliu del Racó-el Balcó
+1587 | L1587 | La Vallesana, SA | (e1) Barcelona-Sabadell-Castellar del Vallès
+NOTA route_id,trip_id,nota
+"0580",1581379,"Parades a la demanda: Querol. Reserva prèvia al tlf. 977547290 amb 24 hores d'antelació"
+"1008",1581703,"El dilluns, dia de mercat, recorregut alternatiu per ctra. Barcelona"
+"1705",1580296,"Servei a la demanda. Reserva prèvia al tlf. 938210485 abans de les 12.00h del dia anterior a la data del viatge o bé enviant un mail a bergapv1@alsa.es"
+"0420",1580517,"Excepte festes locals a Barcelona"
+"0520",1596307,"També circula els festius escolars en període lectiu"
+"0420",1597654,"Excepte festes locals a Barcelona"
+"1008",1597704,"El dilluns, dia de mercat, recorregut alternatiu per ctra. Barcelona"
+"1836",1597874,"Servei a la demanda Clic.cat Gironès. Reserva prèvia al tlf. 972204868 de 8 a 20h o bé a través de la app Nemi amb 15 minuts de marge"
+"0504",15
