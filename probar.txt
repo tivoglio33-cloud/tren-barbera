@@ -1,0 +1,100 @@
+=================== AMB
+-rw-r--r-- 1 runner runner 9335510 Oct 31 17:48 g.zip
+agency.txt
+areas.txt
+calendar.txt
+calendar_dates.txt
+fare_attributes.txt
+fare_leg_rules.txt
+fare_media.txt
+fare_products.txt
+fare_rules.txt
+feed_info.txt
+networks.txt
+route_networks.txt
+routes.txt
+shapes.txt
+stop_areas.txt
+stop_times.txt
+stops.txt
+ticketing_deep_links.txt
+ticketing_identifiers.txt
+transfers.txt
+trips.txt
+--- agency
+agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone
+34,Soler i Sauret,http://www.ambmobilitat.cat,Europe/Madrid,ca,936325133
+37,DIREXIS TGO,http://www.ambmobilitat.cat,Europe/Madrid,ca,937780088
+44,DIREXIS TUSGSAL,http://www.ambmobilitat.cat,Europe/Madrid,ca,900909061
+56,Avanza,http://www.ambmobilitat.cat,Europe/Madrid,ca,
+62,Monbus i Julià,http://www.ambmobilitat.cat,Europe/Madrid,ca,
+69,Moventis,http://www.ambmobilitat.cat,Europe/Madrid,ca,
+71,Monbus (Papiol),http://www.ambmobilitat.cat,Europe/Madrid,ca,
+72,Monbus (Aerobús),http://www.ambmobilitat.cat,Europe/Madrid,ca,
+73,Monbus (Horta),http://www.ambmobilitat.cat,Europe/Madrid,ca,
+74,Moventis (Port),http://www.ambmobilitat.cat,Europe/Madrid,ca,
+79,Moventis (Cerdanyola),http://www.ambmobilitat.cat,Europe/Madrid,ca,
+--- rutas Moventis/Sarbus
+140 rutas; coinciden 2
+509 CV2 Moventis (Cerdanyola) La Farigola-Bellaterra
+510 CV3 Moventis (Cerdanyola) Canaletes-Estació Rodalies Cerdanyola Universitat
+calendar max end 20281231
+calendar_dates max 20270912
+ejemplo stops ['109303', '100005', '109239', '109244', '001461'] tiene 201449: True
+=================== GENCAT
+-rw-r--r-- 1 runner runner 26054178 Oct 31 17:48 g.zip
+agency.txt
+calendar.txt
+calendar_dates.txt
+nota.txt
+routes.txt
+shapes.txt
+stop_times.txt
+stops.txt
+trips.txt
+--- agency
+agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone,agency_fare_url
+42751,"Enric Sirvent Faus","https://web.gencat.cat/ca/inici/",Europe/Madrid,,656541792,
+42757,"PERE CORTINA BOCHACA","https://web.gencat.cat/ca/inici/",Europe/Madrid,,669499199,
+42753,"Ivan Pey Queró","https://web.gencat.cat/ca/inici/",Europe/Madrid,,637556251,
+42758,"Regina Bernadó Vilana","https://web.gencat.cat/ca/inici/",Europe/Madrid,,609286899,
+42533,"Serveis Turístics Delamoga, SL","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42534,"Autocars LLadós-Montaña, SL","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42535,"Josep Colom Prió","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42536,"Josep Lladós Callís","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42538,"Daniel Herencia Juárez","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42540,"Marcos López Perona","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42541,"Jordi Cases Blasi","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42542,"Joan Bellera Bellera","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42543,"Joan Baldomà Noves","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42544,"Carlos Gómez Hinojosa","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42547,"Montferri Hermanos, SL","https://web.gencat.cat/ca/inici/",Europe/Madrid,,938010359,
+42551,"Lluís Obiols Capdevila","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42552,"Autocars Franch, SA","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42553,"Autocars Vidao, SL","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42555,"Miguel Gamon, SL/Autobusos de Lleida, SA","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42557,"Empresa Sagalés, SA i Empresa Casas, SA","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42561,"Autocars Aler, SL","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42565,"Josep M. Llop Masip","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42569,"Autocars del Penedès, SA","https://web.gencat.cat/ca/inici/",Europe/Madrid,,977660821,
+42570,"Grup d'empreses: SA Alsina Graells AT, LHIFE ","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42574,"Autocares R. Font, SAU","https://web.gencat.cat/ca/inici/",Europe/Madrid,,935801818,
+42579,"Sílvia Arbonés Cuadrat","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42581,"Autocars Martí Pi, SA (AMPSA)","https://web.gencat.cat/ca/inici/",Europe/Madrid,,972216353,
+42582,"Autocares R. Font, SAU i Marfina Bus, SA","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42585,"Autocars Salvia SL","https://web.gencat.cat/ca/inici/",Europe/Madrid,,973601910,
+42588,"Autocars Vendrell, SL","https://web.gencat.cat/ca/inici/",Europe/Madrid,,938922544,
+42589,"Autocorb, SA","https://web.gencat.cat/ca/inici/",Europe/Madrid,,936500735,
+42593,"Barcelona Bus, SL","https://web.gencat.cat/ca/inici/",Europe/Madrid,,935931300,
+42602,"Companyia del Ferrocarril d'Olot a Girona, SA","https://web.gencat.cat/ca/inici/",Europe/Madrid,,972204868,
+42604,"Empresa Lax SL","https://web.gencat.cat/ca/inici/",Europe/Madrid,,973268500,
+42605,"Empresa Sagalés, SA","https://web.gencat.cat/ca/inici/",Europe/Madrid,,935931300,
+42608,"Ferrocarriles y Transportes, SA","https://web.gencat.cat/ca/inici/",Europe/Madrid,,935931300,
+42612,"La Hispano Llacunense, SL","https://web.gencat.cat/ca/inici/",Europe/Madrid,,938912561,
+42623,"Lluís Betriu Sabata","https://web.gencat.cat/ca/inici/",Europe/Madrid,,,
+42628,"SARFA SL","https://web.gencat.cat/ca/inici/",Europe/Madrid,,972300262,
+--- rutas Moventis/Sarbus
+948 rutas; coinciden 0
+calendar max end 20261231
+calendar_dates max 20261231
+ejemplo stops ['PF08162003', 'PF08162004', 'PF08161065', 'PF08161005', 'PF08044006'] tiene 201449: False
