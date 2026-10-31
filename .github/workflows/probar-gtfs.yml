@@ -1,0 +1,36 @@
+# Temporal (31/10/2026): mira si los GTFS del AMB y de la Generalitat llevan
+# las lineas de Moventis de Barbera/Badia/Sabadell. Se borra despues.
+name: Probar GTFS alternativos
+on: workflow_dispatch
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mirar
+        run: |
+          set +e
+          mirar() {
+            echo "=================== $1"
+            curl -sSfL --retry 2 -A "Mozilla/5.0" -o g.zip "$2" || { echo "NO SE PUEDE BAJAR"; return; }
+            ls -la g.zip; rm -rf g; mkdir g; unzip -q -o g.zip -d g; ls g
+            echo "--- agency"; cat g/agency.txt | head -40
+            echo "--- rutas Moventis/Sarbus"
+            python3 - <<'PY'
+          import csv
+          ags={r['agency_id']:r['agency_name'] for r in csv.DictReader(open('g/agency.txt',encoding='utf-8-sig'))} if True else {}
+          want={'648','CV2','CV3','C1','B1','B2','A2','B3','A1','C2','B4','C7','E1','E3','C3','LB1','B5','N61','B9','N62','N64','B6','C5','N65'}
+          rutas=[r for r in csv.DictReader(open('g/routes.txt',encoding='utf-8-sig'))]
+          sel=[r for r in rutas if r['route_short_name'].upper() in want and any(k in ags.get(r.get('agency_id',''),'').lower() for k in ('moventis','sarbus','vallesana','sagales')) ]
+          print(len(rutas),'rutas;', 'coinciden', len(sel))
+          for r in sel: print(r['route_id'], r['route_short_name'], ags.get(r.get('agency_id','')), r.get('route_long_name','')[:60])
+          import os
+          if os.path.exists('g/calendar.txt'):
+            c=list(csv.DictReader(open('g/calendar.txt',encoding='utf-8-sig'))); print('calendar max end', max(x['end_date'] for x in c) if c else None)
+          if os.path.exists('g/calendar_dates.txt'):
+            m=max(x['date'] for x in csv.DictReader(open('g/calendar_dates.txt',encoding='utf-8-sig'))); print('calendar_dates max', m)
+          s=[r for r in csv.DictReader(open('g/stops.txt',encoding='utf-8-sig'))]
+          print('ejemplo stops', [x['stop_id'] for x in s[:5]], 'tiene 201449:', any(x['stop_id'].endswith('201449') for x in s))
+          PY
+          }
+          mirar AMB https://www.ambmobilitat.cat/OpenData/google_transit.zip
+          mirar GENCAT https://territori.gencat.cat/web/.content/home/serveis/visors-cartografia/bases-cartografiques/infraestructures-mobilitat/autobusos-interurbans/busos-interurbans-GTFS.zip
