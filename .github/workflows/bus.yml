@@ -20,7 +20,7 @@ concurrency:
 
 env:
   # Enlace de descarga del zip "Oferta planificada de transporte completa" de T-mobilitat
-  URL_GTFS: 'PEGAR_ENLACE_T_MOBILITAT'
+  URL_GTFS: 'https://t-mobilitat.cat/opendata/static/download/WBL/'
 
 jobs:
   bus:
