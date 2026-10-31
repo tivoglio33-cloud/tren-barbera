@@ -2,10 +2,13 @@
 # las lineas de Moventis de Barbera/Badia/Sabadell. Se borra despues.
 name: Probar GTFS alternativos
 on: workflow_dispatch
+permissions:
+  contents: write
 jobs:
   probar:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Mirar
         run: |
           set +e
@@ -32,5 +35,9 @@ jobs:
           print('ejemplo stops', [x['stop_id'] for x in s[:5]], 'tiene 201449:', any(x['stop_id'].endswith('201449') for x in s))
           PY
           }
-          mirar AMB https://www.ambmobilitat.cat/OpenData/google_transit.zip
+          { mirar AMB https://www.ambmobilitat.cat/OpenData/google_transit.zip
           mirar GENCAT https://territori.gencat.cat/web/.content/home/serveis/visors-cartografia/bases-cartografiques/infraestructures-mobilitat/autobusos-interurbans/busos-interurbans-GTFS.zip
+          } > probar.txt 2>&1
+          rm -rf g g.zip
+          git config user.name github-actions; git config user.email github-actions@users.noreply.github.com
+          git add probar.txt; git commit -m 'Temporal: resultado prueba GTFS'; git push
