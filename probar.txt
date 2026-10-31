@@ -1,0 +1,89 @@
+=================== AMB
+-rw-r--r-- 1 runner runner 9335510 Oct 31 17:49 g.zip
+agency.txt
+areas.txt
+calendar.txt
+calendar_dates.txt
+fare_attributes.txt
+fare_leg_rules.txt
+fare_media.txt
+fare_products.txt
+fare_rules.txt
+feed_info.txt
+networks.txt
+route_networks.txt
+routes.txt
+shapes.txt
+stop_areas.txt
+stop_times.txt
+stops.txt
+ticketing_deep_links.txt
+ticketing_identifiers.txt
+transfers.txt
+trips.txt
+AGENCIAS {'44': 'DIREXIS TUSGSAL', '69': 'Moventis', '74': 'Moventis (Port)', '79': 'Moventis (Cerdanyola)'}
+=================== GENCAT
+-rw-r--r-- 1 runner runner 26054178 Oct 31 17:49 g.zip
+agency.txt
+calendar.txt
+calendar_dates.txt
+nota.txt
+routes.txt
+shapes.txt
+stop_times.txt
+stops.txt
+trips.txt
+AGENCIAS {'42673': 'La Vallesana, SA'}
+1656 | L1656 | Marfina Bus, SA | (B9) Can Barata-Sant Quirze del Vallès-Terrassa
+1657 | L1657 | La Hispano de Fuente en Segures, SA (HIFE) | (e3) Tortosa - Amposta - La Ràpita - Les Cases - Alcanar
+0625 | L0625 | La Vallesana, SA | (C2) Sabadell - Terrassa - Martorell
+0623 | L0623 | La Vallesana, SA | (C3) Sabadell - Sant Llorenç Savall
+0626 | L0626 | Marfina Bus, SA | (B6) Sabadell-Barberà del Vallès-Campus UAB
+0619 | L0619 | Marfina Bus, SA | (A1) Sabadell-Barberà del Vallès-Barcelona
+0050 | L0050 | Marfina Bus, SA | (A2) Badia del V.-Barberà del V.-Barcelona
+0618 | L0618 | Marfina Bus, SA | (B1) Sabadell-Barberà-Badia del Vallès
+0136 | L0136 | Autocares R. Font, SAU i Marfina Bus, SA | (N62) Barcelona-UAB-Sant Cugat del Vallès (SN)
+0084 | L0084 | La Vallesana, SA | (N65) Barcelona - Castellar del Vallès (SN)
+0047 | L0047 | Autocares R. Font, SAU | (690) Badalona-Sta.Coloma G.-Ripollet-UAB
+0953 | L0953 | Marfina Bus, SA | (B8) Sant Cugat-Rubí-Terrassa-Sant Quirze
+1308 | L1308 | Ferrocarriles y Transportes, SA | (233) Palau-solità - Polinyà - Sabadell
+1470 | L1470 | Ferrocarriles y Transportes, SA | (234) Sabadell-Polinyà-Sentmenat-Caldes-Palau
+0119 | L0119 | Autocares R. Font, SAU | (e4) Barcelona - Ripollet
+1414 | L1414 | Marfina Bus, SA | (B2) Sabadell-Barberà-Cerdanyola-Ripollet
+0958 | L0958 | Marfina Bus, SA | (B7) Cerdanyola V. - Sant Cugat V. - Rubí
+0232 | L0232 | La Vallesana, SA | (C7) Castellbisbal-Terrassa-Sabadell (Can Rull)
+0187 | L0187 | Marfina Bus, SA | (B4) Badia del Vallès-Barberà del V.-Cerdanyola del V.
+0458 | L0458 | Empresa Sagalés, SA | (A1) Urbà de Lliçà d'Amunt: Palaudàries
+0198 | L0198 | Ferrocarriles y Transportes, SA | (230) Caldes de Montbui - Sentmenat - Sabadell
+0194 | L0194 | Ferrocarriles y Transportes, SA | (231) Caldes de Montbui-Palau-solità-Polinyà-Sabadell
+0494 | L0494 | Cingles Bus, SA | (e13) Mataró - Granollers - Sabadell
+0739 | L0739 | La Vallesana, SA | (C5) Terrassa - Sabadell
+0527 | L0527 | Autocars del Penedès, SA | (N6) Torredembarra - Tarragona (SN)
+1005 | L1005 | La Hispano de Fuente en Segures, SA (HIFE) | Mas de Barberans - Santa Bàrbara - Tortosa
+1076 | L1076 | Soler i Sauret, SA | (L51) Barcelona (B.Aires)-St.Feliu de Llobregat
+1283 | L1283 | Empresa Sagalés, SA | (361) Sant Fost de Campsentelles-Sabadell
+0620 | L0620 | La Vallesana, SA | (C1) Sabadell - Castellar del Vallès
+1284 | L1284 | Empresa Sagalés, SA | (360) Badalona - Sabadell
+0954 | L0954 | Marfina Bus, SA | (B3) Sabadell - Matadepera (les Pedritxes)
+1558 | L1558 | Marfina Bus, SA | (N67) Terrassa - Vacarisses (SN)
+1520 | L1520 | Teresa y José Plana, Empresa Plana, SL | Barberà Conca-Montblanc-Sarral-Valls-Tarragona
+1587 | L1587 | La Vallesana, SA | (e1) Barcelona-Sabadell-Castellar del Vallès
+1712 | L1712 | Marfina Bus, SA | (B5) Ripollet - Sabadell
+0774 | L0774 | Marfina Bus, SA | (e3) Barcelona-Cerdanyola del Vallès-Campus UAB
+1648 | L1648 | PERE CORTINA BOCHACA | Espot-cruïlla d'Espot
+1766 | L1766 | Miguel Gamón, SL | (e3) Lleida-Alcarràs
+1797 | L1797 | Empresa Sagalés, SA | (A21) Urbà Lliçà d'Amunt: la Serra - Palaudàries
+1851 | L1851 | Empresa Sagalés, SA | (A11) Urbà de Lliçà d'Amunt: Ca l'Esteper
+1852 | L1852 | Empresa Sagalés, SA | (A22) Urbà de Lliçà d'Amunt: Ca l'Artigues
+2136 | L2136 | Ferrocarriles y Transportes, SA | (232) Polinyà - Sabadell
+1475 | L1475 | SARFA SL | Figueres - Roses (Bus nocturn)  NGI-2
+1776 | L1776 | Empresa Sagalés, SA | (A2) Urbà de Lliçà d'Amunt: la Serra
+1427 | L1427 | Autocares R. Font, SAU | (685) Can Tiana - Ripollet - Montcada (CAP)
+0602 | L0602 | Autocares R. Font, SAU | (620) Ripollet - Barcelona per carretera
+0121 | L0121 | Marfina Bus, SA | (N61) Barcelona-Terrassa-Sabadell-Barcelona (SN)
+1557 | L1557 | Marfina Bus, SA | (N66) Terrassa - Matadepera (SN)
+0123 | L0123 | Marfina Bus, SA | (N64) Barcelona-Sabadell-Terrassa-Barcelona (SN)
+0512 | L0512 | Autocares R. Font, SAU i Marfina Bus, SA | (648) Montcada-Ripollet-CV-UAB-Bellaterra (SC)
+1008 | L1008 | Marfina Bus, SA | (LB1) Urbà de Barberà del Vallès
+0163 | L0163 | Transports Elèctrics Interurbans, SA -TEISA- | Bus Transversal Garrotxa (Besalú-Castellfollit-Olot-Sant Esteve-les Planes)
+1545 | L1545 | SARFA SL | (L1-L2) Palamós - Calonge -  Sant Antoni - Palamós  i  Badia Bus
